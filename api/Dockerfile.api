@@ -1,0 +1,64 @@
+FROM node:22-slim AS base
+
+# Install curl for healthcheck
+RUN apt-get update && apt-get install -y curl
+
+######################################################################################
+# 1. Install dependencies only when needed
+FROM base AS proddeps
+
+# No Dev-Dependencies: not calling this because only standalone will be deployed
+# ENV NODE_ENV=production
+
+WORKDIR /app
+
+# Install dependencies based on the preferred package manager
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+######################################################################################
+# 2. Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY lib ./lib
+COPY --from=proddeps /app/node_modules ./node_modules
+COPY pages ./pages
+COPY prisma ./prisma
+COPY public ./public
+COPY .eslintrc.json middleware.ts next.config.js package-lock.json package.json prisma.config.ts tsconfig.json ./
+
+# setting the db url to something is a hack to make the prisma code generation work. The reason is that the prisma config references this env var. Though there is no connection to the server initiated what so ever. Therefore the value does not matter. The documentation puts the prisma client code generation to the Docker CMD step, where this env var must be set. But I definitely don't want to run code generation at runtime rather than at build time.
+ENV DATABASE_URL=link
+RUN npx prisma generate
+RUN npm run build
+
+######################################################################################
+# 3. Production image, copy all the files and run next
+FROM base AS runner
+
+ENV NODE_ENV=production
+
+RUN groupadd -g 1001 nodejs
+RUN useradd -u 1001 -g nodejs -m -d /home/nextjs nextjs
+
+WORKDIR /home/nextjs/2a5-api
+
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+ENV PORT 3000
+
+# needed for the healthcheck to work
+ENV HOSTNAME 0.0.0.0
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 CMD curl --fail http://localhost:3000/api/health || exit 1
+
+CMD ["node", "server.js"]
+

@@ -19,113 +19,60 @@ You need to install on your local workstation:
 
 Clone the repository:
 ```bash
-git clone https://github.com/reckseba/2a5-api.git
-```
-
-Install your environment
-```bash
-cd 2a5-api
-npm install
+git clone https://github.com/reckseba/2a5.git
 ```
 
 Prepare your local config:
 ```bash
-cp ./.env.development.sample ./.env.development.local
+cp ./.env.template ./.env
 ```
-Do changes in ./.env.development.local now.
+Do changes now.
 
-Run the database server:
+Run the database server (the compose override exposes the port to localhost):
 ```bash
-docker compose --env-file ./.env.development.local up -d db
+docker compose --env-file ./.env up db -d --remove-orphans
 ```
 
-Generate the typescript types out of the schema.
+Then switch over to the independent service READMEs:
+- [API](./api/README.md)
+- [APP](./app/README.md)
+
+When you are done stop the database server:
 ```bash
-npm run prismagenerate
+docker compose --env-file ./.env down
 ```
 
-Push the database schema to postgres (only on first start when docker volume is initially created)
-```bash
-npm run prismamigratedev
-```
-
-Run the nodejs development server:
-```bash
-npm run dev
-```
-
-Happy coding. API is available at [http://localhost:3000/api](http://localhost:3000/api).
-
-If you do changes to the database schema run (while db is up)
-```bash
-npm run prismamigratedev
-```
-
-Stop it with CTRL+C
-
-To stop the database server:
-```bash
-docker compose --env-file ./.env.development.local down
-```
-
-# Testing
-Run Cypress tests (make sure db docker and local node server is running)
-
-__Warning__: This command truncates your table content!
-```bash
-npm run test
-```
-
-Check your API via curl:
-```bash
-source .env.development.local && curl localhost:3000/api/token/correct -H "Accept: application/json" -H "Authorization: Bearer ${ADMIN_TOKEN}"
-```
-Expected response: `{"message":"success"}`
-
-# Linting
-Run to check for linting errors:
-```bash
-npm run lint
-```
-
-# Deploy Development (locally)
-This runs the environment on docker. It supports hot reload.
+# Deploy the entire stack with Docker
+This section helps you spinning up the entire stack. Prisma, used as database orm, is locked inside a side car container which only spins up once in the beginning, while the api and frontend-app will only start if prisma quit successfully. This allows us to keep Prisma code away from our production container.
 
 Prepare your local config (if not done already):
 ```bash
-cp ./.env.development.sample ./.env.development.local
+cp ./.env.template ./.env
 ```
-Do changes in ./.env.development.local now.
+Do changes now.
 
-
-Start the api and db containers (In -d detached mode, watch does not work)
+Spin up the entire stack:
 ```bash
-docker compose --env-file ./.env.development.local up --build --watch
-```
-
-Push the database schema to postgres (only if not done before on first start when docker volume is initially created).
-```bash
-npm install
-npm run prismamigratedeploy
+docker compose --env-file ./.env up -d --build --remove-orphans
 ```
 
-If you like you can run (Run `npm i` before if never done before)
-__Warning__: This command truncates your table content!
+Check stack logs with:
 ```bash
-npm run test
+docker compose logs -f
 ```
 
-Stop the api and db containers
+All containers shall say `healthy`:
 ```bash
-docker compose --env-file ./.env.development.local down
+docker compose ps
+```
+
+Stop all containers:
+```bash
+docker compose --env-file ./.env down
 ```
 
 # Cleanup locally
 
-Delete all generated files
-```bash
-rm -rf .next/ node_modules/ next-env.d.ts cypress/screenshots/ cypress/videos/
-```
 If you want to delete your docker postgres image (volume with database entries remains)
 ```bash
 docker image rm postgres:14-alpine
@@ -146,6 +93,3 @@ DANGER! Erases all images
 docker image prune -a
 ```
 
-# Deployment to test/staging/production systems
-
-Checkout 2a5-deploy repository.
