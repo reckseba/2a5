@@ -1,0 +1,74 @@
+extends default
+
+
+block content
+    h2 Undeleted Unchecked
+    .urlsUndeletedUnchecked
+        each url in urlsUndeletedUnchecked
+            .row
+                .urlId #{url.id}
+                .urlCreatdAt #{new Date(url.createdAt).toLocaleString('de-DE')}
+                .urlShort
+                    a(target='_blank' ref='noopener noreferrer' href=`${url.urlShortFull}`) #{url.urlShort}
+                .urlLong
+                    a(target='_blank' ref='noopener noreferrer' href=`${url.urlLong}`) #{url.urlLong}
+                .urlHostname #{url.hostname}
+                .urlIpAddressHash #{url.ipAddressHash}
+                .urlDelete
+                    a(href=`/api/url/delete/${url.id}`) D
+                .urlCheck
+                    a(href=`/api/url/check/${url.id}`) C
+                .urlWhitelist
+                    a(href=`/api/url/whitelist/${url.id}`) W
+                .urlBlackblist
+                    a(href=`/api/url/blacklist/${url.id}`) B
+
+    h2 Undeleted Checked
+    .urlsUndeletedChecked
+        each url in urlsUndeletedChecked
+            .row
+                .urlId #{url.id}
+                .urlCreatdAt #{new Date(url.createdAt).toLocaleString('de-DE')}
+                .urlShort
+                    a(target='_blank' ref='noopener noreferrer' href=`${url.urlShortFull}`) #{url.urlShort}
+                .urlLong
+                    a(target='_blank' ref='noopener noreferrer' href=`${url.urlLong}`) #{url.urlLong}
+                .urlHostname #{url.hostname}
+                .urlIpAddressHash #{url.ipAddressHash}
+                .urlcheckedBy #{url.checkedBy}
+                .urlDelete
+                    a(href=`/api/url/delete/${url.id}`) D
+                .urlWhitelist
+                    a(href=`/api/url/whitelist/${url.id}`) W
+
+    h2 Deleted Checked
+    .urlsDeletedChecked
+        each url in urlsDeletedChecked
+            .row
+                .urlId #{url.id}
+                .urlCreatdAt #{new Date(url.createdAt).toLocaleString('de-DE')}
+                .urlShort
+                    a(target='_blank' ref='noopener noreferrer' href=`${url.urlShortFull}`) #{url.urlShort}
+                .urlLong
+                    a(target='_blank' ref='noopener noreferrer' href=`${url.urlLong}`) #{url.urlLong}
+                .urlHostname #{url.hostname}
+                .urlIpAddressHash #{url.ipAddressHash}
+                .urlcheckedBy #{url.checkedBy}
+                .urlCheck
+                    a(href=`/api/url/check/${url.id}`) C
+                .urlBlackblist
+                    a(href=`/api/url/blacklist/${url.id}`) B
+
+    h2 Blacklisted Hostnames
+    .hostnamesBlacklisted
+        each hostname in hostnamesBlacklisted
+            .row
+                .hostnameId #{hostname.id}
+                .hostnameHostname #{hostname.hostname}
+
+    h2 Whitelisted Hostnames
+    .hostnamesWhitelisted
+        each hostname in hostnamesWhitelisted
+            .row
+                .hostnameId #{hostname.id}
+                .hostnameHostname #{hostname.hostname}

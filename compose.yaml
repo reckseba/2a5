@@ -6,8 +6,6 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_USER: ${DATABASE_USERNAME}
       PGPORT: 5432
-    logging:
-      driver: "none"
     restart: unless-stopped
     volumes:
       - db-data:/var/lib/postgresql/data
@@ -62,6 +60,24 @@ services:
       - "${DOCKER_APP_PORT:-3001}:3001"
     restart: unless-stopped
     environment:
+      - DOCKER_API_HOSTNAME=api
+      - DOCKER_API_PORT=3000
+
+  admin:
+    build:
+      context: ./admin/
+      dockerfile: Dockerfile
+      target: runner
+    depends_on:
+      db:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+    ports:
+      - "${DOCKER_ADMIN_PORT:-3002}:3002"
+    environment:
+      - ADMIN_PORT=${ADMIN_PORT}
+      - ADMIN_TOKEN=${ADMIN_TOKEN}
       - DOCKER_API_HOSTNAME=api
       - DOCKER_API_PORT=3000
 

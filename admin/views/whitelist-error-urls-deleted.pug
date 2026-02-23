@@ -1,0 +1,6 @@
+extends default
+
+block content
+    h2 Following Urls are deleted. Check first to whitelist #{hostname}
+    each url in urls
+        .urlId #{url.id}

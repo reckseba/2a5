@@ -1,7 +1,7 @@
-FROM node:21-slim AS base
+FROM node:22-slim AS base
 
 # Install curl for healthcheck
-RUN apt-get update && apt-get install -y curl
+RUN apt-get update -y && apt-get install -y curl
 
 ######################################################################################
 FROM base AS proddeps
@@ -16,7 +16,6 @@ COPY package.json package-lock.json* ./
 RUN npm ci
 
 ######################################################################################
-# 2. Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
 COPY components ./components
@@ -29,7 +28,6 @@ COPY .eslintrc.json next.config.js package-lock.json package.json postcss.config
 RUN npm run build
 
 ######################################################################################
-# 3. Production image, copy all the files and run next
 FROM base AS runner
 
 ENV NODE_ENV=production
@@ -37,7 +35,7 @@ ENV NODE_ENV=production
 RUN groupadd -g 1001 nodejs
 RUN useradd -u 1001 -g nodejs -m -d /home/nextjs nextjs
 
-WORKDIR /home/nextjs/2a5-api
+WORKDIR /home/nextjs/2a5-app
 
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 

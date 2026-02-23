@@ -1,0 +1,6 @@
+extends default
+
+block content
+    h2 Following Urls are checked. Delete first to blacklist #{hostname}
+    each url in urls
+        .urlId #{url.id}

@@ -36,6 +36,7 @@ docker compose --env-file ./.env up db -d --remove-orphans
 Then switch over to the independent service READMEs:
 - [API](./api/README.md)
 - [APP](./app/README.md)
+- [Admin](./admin/README.md)
 
 When you are done stop the database server:
 ```bash

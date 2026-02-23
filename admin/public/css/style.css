@@ -1,0 +1,34 @@
+html {
+  box-sizing: border-box;
+}
+  
+*, *::before, *::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.urlsUndeletedUnchecked, .urlsUndeletedChecked, .urlsDeletedChecked, .hostnamesBlacklisted, .hostnamesWhitelisted {
+  display: grid;
+}
+
+.urlsUndeletedUnchecked {
+  grid-template-columns: repeat(10, auto);
+}
+
+.urlsUndeletedChecked {
+  grid-template-columns: repeat(9, auto);
+}
+
+.urlsDeletedChecked {
+  grid-template-columns: repeat(9, auto);
+}
+
+.hostnamesBlacklisted, .hostnamesWhitelisted {
+  grid-template-columns: repeat(2, auto);
+}
+
+.row {
+  display: contents;
+  border-bottom: 1px solid silver;
+}
