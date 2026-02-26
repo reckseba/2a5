@@ -14,23 +14,23 @@
   "devDependencies": {
     "@prisma/adapter-pg": "^7.4.1",
     "@prisma/client": "^7.4.1",
-    "@types/node": "^20.19.33",
+    "@types/node": "^25.3.1",
     "@types/pg": "^8.16.0",
-    "@types/qrcode": "^1.5.0",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "19.2.14",
-    "cypress": "^13.6.6",
-    "dotenv": "^16.6.1",
-    "dotenv-cli": "^7.4.1",
+    "cypress": "^15.11.0",
+    "dotenv": "^17.3.1",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9.39.3",
     "eslint-config-next": "16.1.6",
     "next": "16.1.6",
-    "pg": "^8.18.0",
+    "pg": "^8.19.0",
     "prisma": "^7.4.1",
-    "qrcode": "^1.5.1",
+    "qrcode": "^1.5.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "tldts": "^7.0.23",
-    "typescript": "^5.4.2"
+    "typescript": "^5.9.3"
   },
   "overrides": {
     "@types/react": "19.2.14"
