@@ -2,10 +2,10 @@ const { defineConfig } = require("cypress");
 const { Client } = require("pg");
 const dotenvOutput = require("dotenv").config({ path: ".env.development.local" });
 
-const clientConfig  = {
-    user: dotenvOutput.parsed.DATABASE_USERNAME,
-    password: dotenvOutput.parsed.DATABASE_PASSWORD,
-    host: dotenvOutput.parsed.DATABASE_HOST,
+const clientConfig = {
+    user: dotenvOutput.parsed.DATABASE_APP_USERNAME,
+    password: dotenvOutput.parsed.DATABASE_APP_PASSWORD,
+    host: "localhost",
     database: dotenvOutput.parsed.DATABASE_NAME,
     ssl: false,
     port: dotenvOutput.parsed.DATABASE_PORT

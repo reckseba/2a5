@@ -54,7 +54,7 @@ npm run start
 ```
 
 ## Testing
-Run Cypress tests (make sure db docker and local node server is running)
+Run Cypress tests (make sure db docker and local node server are running)
 
 __Warning__: This command truncates your table content!
 ```bash
@@ -64,7 +64,7 @@ npm run test
 ## Linting
 Run to check for linting errors:
 ```bash
-npm run lint
+npx eslint .
 ```
 
 ## Cleanup locally

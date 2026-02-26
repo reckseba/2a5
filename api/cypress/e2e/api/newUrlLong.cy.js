@@ -14,11 +14,11 @@ const doesNotExistUrlShort = "aaaa";
 
 // Seed database
 const queries = [
-    "TRUNCATE TABLE public.\"Urls\"",
-    "TRUNCATE TABLE public.\"Hostnames\"",
-    "INSERT INTO public.\"Hostnames\" (\"hostname\",\"blacklisted\") VALUES ('thishostnameisblocked.com',true)",
-    "INSERT INTO public.\"Hostnames\" (\"hostname\",\"blacklisted\") VALUES ('thishostnameiswhitelisted.com',false)",
-    "INSERT INTO public.\"Urls\" (\"urlLong\",\"urlQrCode\",\"urlShort\",\"urlShortFull\",\"hostname\",\"deleted\",\"deletedAt\",\"ipAddressHash\") VALUES ('" + deletedUrlLong + "','" + deletedUrlQrCode + "','" + deletedUrlShort + "','" + deletedUrlShortFull + "','" + deletedHostname + "',true,NOW(),'" + deletedIpAddressHash +"')"
+    "TRUNCATE TABLE appschema.\"Urls\"",
+    "TRUNCATE TABLE appschema.\"Hostnames\"",
+    "INSERT INTO appschema.\"Hostnames\" (\"hostname\",\"blacklisted\") VALUES ('thishostnameisblocked.com',true)",
+    "INSERT INTO appschema.\"Hostnames\" (\"hostname\",\"blacklisted\") VALUES ('thishostnameiswhitelisted.com',false)",
+    "INSERT INTO appschema.\"Urls\" (\"urlLong\",\"urlQrCode\",\"urlShort\",\"urlShortFull\",\"hostname\",\"deleted\",\"deletedAt\",\"ipAddressHash\") VALUES ('" + deletedUrlLong + "','" + deletedUrlQrCode + "','" + deletedUrlShort + "','" + deletedUrlShortFull + "','" + deletedHostname + "',true,NOW(),'" + deletedIpAddressHash + "')"
 ];
 
 before(() => {
@@ -214,7 +214,7 @@ for (let i = 0; i < tests.length; i++) {
 
             if (tests[i]["dbProperties"]) {
                 tests[i]["dbProperties"].forEach((prop) => {
-                    cy.task("queryPG", "SELECT \"" + prop.name + "\" FROM public.\"Urls\" WHERE \"urlShort\"='" + response.body.urlShort + "'").then((res) => {
+                    cy.task("queryPG", "SELECT \"" + prop.name + "\" FROM appschema.\"Urls\" WHERE \"urlShort\"='" + response.body.urlShort + "'").then((res) => {
                         expect(res[0].checkedBy).to.eq(prop.value);
                     });
                 });
@@ -242,7 +242,7 @@ it("short url is available", () => {
         url: "/api/urlShort/" + responseBody.urlShort,
     }).then((response) => {
         expect(response.status).to.eq(200);
-        expect(response.body).to.deep.eq({ urlLong: responseBody.urlLong});
+        expect(response.body).to.deep.eq({ urlLong: responseBody.urlLong });
     });
 });
 

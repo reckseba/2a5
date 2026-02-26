@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 
 // This function can be marked `async` if using `await` inside
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
 
     if (req.nextUrl.pathname.match("/api/urlShort/*") || req.nextUrl.pathname.match("/api/urlLong/new") || req.nextUrl.pathname.match("/api/health")) {
         // only these routes are unauthenticated ok
