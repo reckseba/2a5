@@ -36,7 +36,7 @@ npm run dev
 Happy coding. API is available at [http://localhost:3000/api](http://localhost:3000/api)
 Check your API via curl:
 ```bash
-source ./.env.development.local && curl localhost:3000/api/token/correct -H "Accept: application/json" -H "Authorization: Bearer ${ADMIN_TOKEN}"
+source ./.env.development.local && curl localhost:3000/api/token/correct -H "Accept: application/json" -H "Authorization: Bearer ${API_BEARER_TOKEN}"
 ```
 Expected response: `{"message":"success"}`
 

@@ -15,7 +15,7 @@ services:
     healthcheck:
       test:
         - CMD-SHELL
-        - pg_isready -U ${DATABASE_APP_USERNAME} -d ${DATABASE_NAME}
+        - pg_isready -U postgres -d postgres
       interval: 10s
       timeout: 5s
       retries: 5
@@ -44,7 +44,7 @@ services:
     restart: unless-stopped
     environment:
       DATABASE_URL: "postgresql://${DATABASE_APP_USERNAME}:${DATABASE_APP_PASSWORD}@db:5432/${DATABASE_NAME}?schema=appschema"
-      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      API_BEARER_TOKEN: ${API_BEARER_TOKEN}
       LINK_PROTOCOL: ${LINK_PROTOCOL}
       LINK_HOSTNAME: ${LINK_HOSTNAME}
       LINK_PORT: ${LINK_PORT}
@@ -63,8 +63,8 @@ services:
       - "${DOCKER_APP_PORT:-3001}:3001"
     restart: unless-stopped
     environment:
-      - DOCKER_API_HOSTNAME=api
-      - DOCKER_API_PORT=3000
+      DOCKER_API_HOSTNAME: api
+      DOCKER_API_PORT: 3000
 
   admin:
     build:
@@ -79,10 +79,9 @@ services:
     ports:
       - "${DOCKER_ADMIN_PORT:-3002}:3002"
     environment:
-      - ADMIN_PORT=${ADMIN_PORT}
-      - ADMIN_TOKEN=${ADMIN_TOKEN}
-      - DOCKER_API_HOSTNAME=api
-      - DOCKER_API_PORT=3000
+      API_BEARER_TOKEN: ${API_BEARER_TOKEN}
+      DOCKER_API_HOSTNAME: api
+      DOCKER_API_PORT: 3000
 
 volumes:
   db-data:

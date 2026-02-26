@@ -1,16 +1,16 @@
 # 2a5
-Open Source URL-Shortener with combined front- &amp; back-end parts based on React, Next.js, Typescript, TailwindCSS, Prisma, PostgreSQL &amp; Docker for local testing.
+Open Source URL-Shortener with separated front-end &amp; back-end parts based on React, Next.js, Typescript, TailwindCSS, Prisma, PostgreSQL &amp; Docker.
 
 ## The Idea
-Long URLs do not get interpreted as links very often. To keep short messages that contain links short, a url-shortener is needed.
+Long URLs are ugly and get misinterpreted very often because of there complicated query parameters. To keep short messages short, a url-shortener is here to save the day.
 
 ## Reception
-You should not trust any web-service out there. Therefore you should not trust 2a5.de either. There is no way I, as the administrator of 2a5.de, can assure you, as a client, that the software, that my server is running, is what is published here. Whatever leaves your browser must be considered public. If you want nobody else to know, what links you are shortening: host your own instance. This tutorial teaches you how.
+You should not trust any web-service out there. Therefore you should not trust 2a5.de either. There is no way I, as the administrator of 2a5.de, can assure you, as a client, that the software, that my server is running, is what is published here in this very repository. Whatever leaves your browser must be considered public. If you want nobody else to know, what links you are shortening: host your own instance. This tutorial teaches you how.
 
 ## Project Design
-The goal was to make use of Server-Side-Rendering (SSR) inside a React-App, which was achieved by using Next.js. Database shall be handled by PostgreSQL, seamlessly integrated by Prisma. To discover errors early, Typescript was used for type definitions. Style was handled by TailwindCSS.
+The goal was to make use of Server-Side-Rendering (SSR) inside a React-App, which was achieved by using Next.js. Database shall be handled by PostgreSQL, seamlessly integrated by Prisma as ORM. To discover errors early, Typescript was used for type definitions. Style was handled by TailwindCSS.
 
-# Development
+## Development
 You need to install on your local workstation:
 - git
 - nodejs
@@ -45,22 +45,23 @@ docker compose --env-file ./.env down
 
 You may run the down command with `-v` to remove volumes:
 ```bash
-docker compose down -v
+docker compose --env-file ./.env down -v
 ```
 
-# Deploy the entire stack with Docker
-This section helps you spinning up the entire stack. Prisma, used as database orm, is locked inside a side car container which only spins up once in the beginning, while the api and frontend-app will only start if prisma quit successfully. This allows us to keep Prisma code away from our production container.
+## Spin up the entire stack using Docker locally
+This section helps you spinning up the entire stack. Prisma, used as database orm, is locked inside a side car container which only spins up once in the beginning, while the api and frontend-app will only start if prisma exits successfully. This allows us to keep Prisma code away from our production container.
 
 Prepare your local config (if not done already):
 ```bash
 cp ./.env.template ./.env
 ```
-Do changes now and set strong secrets!
 
 Spin up the entire stack by referencing the `compose.yaml` only (without override):
 ```bash
 docker compose -f compose.yaml --env-file ./.env up -d --build --remove-orphans
 ```
+
+Open [http://localhost:3001](http://localhost:3001) check the result.
 
 Check stack logs with:
 ```bash
@@ -79,28 +80,25 @@ docker compose --env-file ./.env down
 
 You may run the down command with `-v` to remove volumes:
 ```bash
-docker compose down -v
+docker compose --env-file ./.env down -v
 ```
 
-# Cleanup locally
+## Deploy the entire stack to production using Dokploy
 
-If you want to delete your docker postgres image (volume with database entries remains)
+Prepare your local config (if not done already):
 ```bash
-docker image rm postgres:14-alpine
+cp ./.env.template ./.env.prod
 ```
+Do changes now and set strong secrets!
 
-Remove the volume
-```bash
-docker volume rm 2a5-db-data-development
-```
-
-DANGER! Erases all containers
-```bash
-docker container prune
-```
-
-DANGER! Erases all images
-```bash
-docker image prune -a
-```
+- Create a project
+- Add this repo
+- Set compose path: `./compose.yaml`
+- Copy the content of your `.env.prod` file to the environment variables settings
+- Goto Advanced and enable isolated environment
+- Hit Deploy
+- Set domain for the `app` container and the tcp port given for `DOCKER_APP_PORT` in your `.env.prod`.
+- Set an admin (sub)domain for the `admin` container and the tcp port given for `DOCKER_ADMIN_PORT` in your `.env.prod`.
+  - Of course you need to set the DNS records beforehand pointing to your server IP address
+- Goto your domain and check if the login works
 

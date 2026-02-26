@@ -20,8 +20,7 @@ export function proxy(req: NextRequest) {
 
     const token = authHeaderValue.split("Bearer ").at(1);
 
-    // replace ADMIN_AUTH_TOKEN with your expected token
-    if (token !== process.env.ADMIN_TOKEN) {
+    if (token !== process.env.API_BEARER_TOKEN) {
         return Response.json(
             { message: "Invalid auth token." },
             { status: 401 }

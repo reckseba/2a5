@@ -11,11 +11,11 @@ Prepare your local config:
 ```bash
 cp ./.env.development.template ./.env.development.local
 ```
-Do changes in ./.env.development.local now and make sure you share the same ADMIN_TOKEN as in [api](../api/README.md).
+You may change environment variable values now, which is purely optional at this point. Values contain meaningful defaults for local development. Make sure you have matching values to the [api](../api/README.md).
 
 Check that your API is running as expected and that the Bearer token matches:
 ```bash
-source .env.development.local && curl localhost:3000/api/token/correct -H "Accept: application/json" -H "Authorization: Bearer ${ADMIN_TOKEN}"
+source .env.development.local && curl localhost:3000/api/token/correct -H "Accept: application/json" -H "Authorization: Bearer ${API_BEARER_TOKEN}"
 ```
 Expected response: `{"message":"success"}`
 
@@ -29,7 +29,7 @@ Check linting:
 npm run lint
 ```
 
-Start coding and open [http://localhost:3002](http://localhost:3002) with your browser of choice to check the result. The system supports hot reload.
+Start coding and open [http://localhost:3002](http://localhost:3002) and check the result. The system supports hot reload.
 
 Stop it with CTRL+C
 

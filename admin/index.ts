@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from "express";
 import * as path from "path";
 import "dotenv/config";
 
-const bearer = "Bearer " + process.env.ADMIN_TOKEN;
+const bearer = "Bearer " + process.env.API_BEARER_TOKEN;
 
 async function fetchApi(path: string, method = "GET") {
 

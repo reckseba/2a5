@@ -45,7 +45,7 @@ COPY --from=builder --chown=nodejs:nodejs /app/index.js ./
 USER nodejs
 
 EXPOSE 3002
-ENV PORT 3002
+ENV ADMIN_PORT 3002
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 CMD curl --fail http://localhost:3002/api/health || exit 1
 
