@@ -1,0 +1,4 @@
+services:
+  db:
+    volumes: !override
+      - db-data:/var/lib/postgresql

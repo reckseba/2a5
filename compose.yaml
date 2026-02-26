@@ -59,8 +59,6 @@ services:
         condition: service_healthy
       api:
         condition: service_healthy
-    ports:
-      - "${DOCKER_APP_PORT:-3001}:3001"
     restart: unless-stopped
     environment:
       DOCKER_API_HOSTNAME: api
@@ -76,8 +74,6 @@ services:
         condition: service_healthy
       api:
         condition: service_healthy
-    ports:
-      - "${DOCKER_ADMIN_PORT:-3002}:3002"
     environment:
       API_BEARER_TOKEN: ${API_BEARER_TOKEN}
       DOCKER_API_HOSTNAME: api

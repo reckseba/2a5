@@ -28,9 +28,9 @@ cp ./.env.template ./.env
 ```
 You may change environment variable values now, which is purely optional at this point. Values contain meaningful defaults for local development. Deploying to production is described in the next section.
 
-Run the database server. This will read the `compose.yaml` and the `compose.override.yaml`. The override defines a local port binding to be able to access the database from outside the docker network. This port binding shall not exist on production. Secondly it makes sure the `init-user-db.sh` is not mounted to the database container, which circumvents creating dedicated roles for accessing the database. This is necessary because Prisma uses the concept of [shadow databases](https://www.prisma.io/docs/orm/prisma-migrate/understanding-prisma-migrate/shadow-database) which require full access when running `prisma migrate dev`.
+Run the database server: This will read the `compose.yaml` and the `compose.override.yaml`. The override defines a local port binding to be able to access the database from outside the docker network. This port binding shall not exist on production and is therefore missing in the `compose.yaml` in the first place. The `compose.override.db.yaml` makes sure the `init-user-db.sh` is not mounted to the database container, which circumvents creating dedicated roles for accessing the database. This is necessary because Prisma uses the concept of [shadow databases](https://www.prisma.io/docs/orm/prisma-migrate/understanding-prisma-migrate/shadow-database) which require full access when running `prisma migrate dev`.
 ```bash
-docker compose --env-file ./.env up db -d --remove-orphans
+docker compose -f compose.yaml -f compose.override.yaml -f compose.override.db.yaml --env-file ./.env up db -d --remove-orphans
 ```
 
 Then switch over to the independent service READMEs:
@@ -49,16 +49,16 @@ docker compose --env-file ./.env down -v
 ```
 
 ## Spin up the entire stack using Docker locally
-This section helps you spinning up the entire stack. Prisma, used as database orm, is locked inside a side car container which only spins up once in the beginning, while the api and frontend-app will only start if prisma exits successfully. This allows us to keep Prisma code away from our production container.
+This section helps you spinning up the entire stack locally. Prisma, used as database orm, is locked inside a side car container which only spins up once in the beginning, while the api and frontend-app will only start if prisma exits successfully. This allows to keep Prisma code away from our api container.
 
 Prepare your local config (if not done already):
 ```bash
 cp ./.env.template ./.env
 ```
 
-Spin up the entire stack by referencing the `compose.yaml` only (without override):
+Spin up the entire stack by referencing the `compose.yaml` and `compose.override.yaml` without `compose.override.db.yaml`. This way the `init-db-user.sh` is loaded and roles get created, while ports are exposed locally depending on `DOCKER_APP_PORT` and `DOCKER_ADMIN_PORT`:
 ```bash
-docker compose -f compose.yaml --env-file ./.env up -d --build --remove-orphans
+docker compose -f compose.yaml -f compose.override.yaml --env-file ./.env up -d --build --remove-orphans
 ```
 
 Open [http://localhost:3001](http://localhost:3001) check the result.
@@ -94,11 +94,12 @@ Do changes now and set strong secrets!
 - Create a project
 - Add this repo
 - Set compose path: `./compose.yaml`
+  - No service es exposing a port. All traffic will be routed through the proxy.
 - Copy the content of your `.env.prod` file to the environment variables settings
 - Goto Advanced and enable isolated environment
 - Hit Deploy
-- Set domain for the `app` container and the tcp port given for `DOCKER_APP_PORT` in your `.env.prod`.
-- Set an admin (sub)domain for the `admin` container and the tcp port given for `DOCKER_ADMIN_PORT` in your `.env.prod`.
+- Set domain for the `app` container and the tcp port 3001.
+- Set an admin (sub)domain for the `admin` container and the tcp port 3002.
   - Of course you need to set the DNS records beforehand pointing to your server IP address
 - Goto your domain and check if the login works
 

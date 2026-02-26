@@ -1,6 +1,11 @@
 services:
   db:
-    volumes: !override
-      - db-data:/var/lib/postgresql
     ports:
       - 5432:5432
+  app:
+    ports:
+      - "${DOCKER_APP_PORT:-3001}:3001"
+
+  admin:
+    ports:
+      - "${DOCKER_ADMIN_PORT:-3002}:3002"
