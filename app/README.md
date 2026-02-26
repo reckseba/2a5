@@ -1,6 +1,6 @@
 # 2a5 app
 
-# Development
+## Development
 You need to install on your local workstation:
 - git
 - nodejs
@@ -21,7 +21,13 @@ Start coding and open [http://localhost:3001](http://localhost:3001) with your b
 
 Stop it with CTRL+C
 
-# Cleanup locally
+## Linting
+Run to check for linting errors:
+```bash
+npx eslint .
+```
+
+## Cleanup locally
 
 Delete all generated files
 ```bash

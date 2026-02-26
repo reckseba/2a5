@@ -17,7 +17,7 @@ export default function Wrapper({ children, showHeader, showFooter }: {
                 from-cyan-50
                 via-cyan-50
                 to-orange-50
-                bg-gradient-to-bl
+                bg-linear-to-bl
             "></div>
             <div className="
                 relative

@@ -87,7 +87,7 @@ const Form = forwardRef(function Form ({ setUrlQrCode, setUrlShortFull, setUrlSh
                         w-full
                         block
                         pr-14
-                        focus:outline-none focus:text-gray-700 focus:bg-white focus:border-cyan-500
+                        focus:outline-hidden focus:text-gray-700 focus:bg-white focus:border-cyan-500
                         "
             />
 

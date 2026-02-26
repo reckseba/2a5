@@ -9,11 +9,11 @@
     "lint": "next lint"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
     "@types/chai": "^4.3.4",
     "@types/node": "^20.11.26",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "autoprefixer": "^10.4.13",
     "cypress": "^13.6.6",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.1",
@@ -24,7 +24,7 @@
     "postcss": "^8.4.21",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "tailwindcss": "^3.2.4",
+    "tailwindcss": "^4.2.1",
     "tldts": "^7.0.23",
     "ts-node": "^10.9.1",
     "typescript": "^5.4.2"
