@@ -9,7 +9,7 @@ You need to install on your local workstation:
 
 Prepare your local config:
 ```bash
-cp ./.env.development.sample ./.env.development.local
+cp ./.env.development.template ./.env.development.local
 ```
 Do changes in ./.env.development.local now.
 

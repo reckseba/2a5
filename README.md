@@ -26,9 +26,9 @@ Prepare your local config:
 ```bash
 cp ./.env.template ./.env
 ```
-Do changes now.
+You may change environment variable values now, which is purely optional at this point. Values contain meaningful defaults for local development. Deploying to production is described in the next section.
 
-Run the database server (the compose override exposes the port to localhost):
+Run the database server. This will read the `compose.yaml` and the `compose.override.yaml`. The override defines a local port binding to be able to access the database from outside the docker network. This port binding shall not exist on production. Secondly it makes sure the `init-user-db.sh` is not mounted to the database container, which circumvents creating dedicated roles for accessing the database. This is necessary because Prisma uses the concept of [shadow databases](https://www.prisma.io/docs/orm/prisma-migrate/understanding-prisma-migrate/shadow-database) which require full access when running `prisma migrate dev`.
 ```bash
 docker compose --env-file ./.env up db -d --remove-orphans
 ```
@@ -43,6 +43,11 @@ When you are done stop the database server:
 docker compose --env-file ./.env down
 ```
 
+You may run the down command with `-v` to remove volumes:
+```bash
+docker compose down -v
+```
+
 # Deploy the entire stack with Docker
 This section helps you spinning up the entire stack. Prisma, used as database orm, is locked inside a side car container which only spins up once in the beginning, while the api and frontend-app will only start if prisma quit successfully. This allows us to keep Prisma code away from our production container.
 
@@ -50,11 +55,11 @@ Prepare your local config (if not done already):
 ```bash
 cp ./.env.template ./.env
 ```
-Do changes now.
+Do changes now and set strong secrets!
 
-Spin up the entire stack:
+Spin up the entire stack by referencing the `compose.yaml` only (without override):
 ```bash
-docker compose --env-file ./.env up -d --build --remove-orphans
+docker compose -f compose.yaml --env-file ./.env up -d --build --remove-orphans
 ```
 
 Check stack logs with:
@@ -70,6 +75,11 @@ docker compose ps
 Stop all containers:
 ```bash
 docker compose --env-file ./.env down
+```
+
+You may run the down command with `-v` to remove volumes:
+```bash
+docker compose down -v
 ```
 
 # Cleanup locally

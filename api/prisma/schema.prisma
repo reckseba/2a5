@@ -5,6 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  schemas = ["appschema"]
 }
 
 model Urls {
@@ -23,6 +24,7 @@ model Urls {
 
   @@index([urlLong])
   @@index([urlShort])
+  @@schema("appschema")
 }
 
 model Hostnames {
@@ -32,6 +34,7 @@ model Hostnames {
   created_at  DateTime @default(now())
 
   @@index([hostname])
+  @@schema("appschema")
 }
 
 model Ipaddresses {
@@ -42,10 +45,13 @@ model Ipaddresses {
   created_at    DateTime @default(now())
 
   @@index([ipAddressHash])
+  @@schema("appschema")
 }
 
 enum CheckType {
   ADMIN
   WHITELIST
   BLACKLIST
+
+  @@schema("appschema")
 }

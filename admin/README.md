@@ -9,7 +9,7 @@ npm install
 
 Prepare your local config:
 ```bash
-cp ./.env.development.sample ./.env.development.local
+cp ./.env.development.template ./.env.development.local
 ```
 Do changes in ./.env.development.local now and make sure you share the same ADMIN_TOKEN as in [api](../api/README.md).
 

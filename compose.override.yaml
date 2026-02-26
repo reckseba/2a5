@@ -1,4 +1,6 @@
 services:
   db:
+    volumes: !override
+      - db-data:/var/lib/postgresql
     ports:
       - 5432:5432

@@ -1,18 +1,21 @@
 services:
   db:
-    image: postgres:14-alpine
+    image: postgres:18@sha256:b6b4d0b75c699a2c94dfc5a94fe09f38630f3b67ab0e1653ede1b7ac8e13c197
     environment:
-      POSTGRES_DB: ${DATABASE_NAME}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_USER: ${DATABASE_USERNAME}
-      PGPORT: 5432
+      POSTGRES_PASSWORD: ${DATABASE_SUPERUSER_PASSWORD}
+      DATABASE_ORM_PASSWORD: ${DATABASE_ORM_PASSWORD}
+      DATABASE_ORM_USERNAME: ${DATABASE_ORM_USERNAME}
+      DATABASE_APP_PASSWORD: ${DATABASE_APP_PASSWORD}
+      DATABASE_APP_USERNAME: ${DATABASE_APP_USERNAME}
+      DATABASE_NAME: ${DATABASE_NAME}
     restart: unless-stopped
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql
+      - ./init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh:ro
     healthcheck:
       test:
         - CMD-SHELL
-        - pg_isready -U ${DATABASE_USERNAME} -d ${DATABASE_NAME}
+        - pg_isready -U ${DATABASE_APP_USERNAME} -d ${DATABASE_NAME}
       interval: 10s
       timeout: 5s
       retries: 5
@@ -26,7 +29,7 @@ services:
         condition: service_healthy
     restart: no
     environment:
-      DATABASE_URL: "postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@db:5432/${DATABASE_NAME}"
+      DATABASE_URL: "postgresql://${DATABASE_ORM_USERNAME}:${DATABASE_ORM_PASSWORD}@db:5432/${DATABASE_NAME}?schema=appschema"
 
   api:
     build:
@@ -40,7 +43,7 @@ services:
         condition: service_completed_successfully
     restart: unless-stopped
     environment:
-      DATABASE_URL: "postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@db:5432/${DATABASE_NAME}"
+      DATABASE_URL: "postgresql://${DATABASE_APP_USERNAME}:${DATABASE_APP_PASSWORD}@db:5432/${DATABASE_NAME}?schema=appschema"
       ADMIN_TOKEN: ${ADMIN_TOKEN}
       LINK_PROTOCOL: ${LINK_PROTOCOL}
       LINK_HOSTNAME: ${LINK_HOSTNAME}
