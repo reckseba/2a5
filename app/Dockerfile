@@ -24,7 +24,7 @@ COPY --from=proddeps /app/node_modules ./node_modules
 COPY pages ./pages
 COPY public ./public
 COPY styles ./styles
-COPY .eslintrc.json next.config.js package-lock.json package.json postcss.config.js tailwind.config.js tsconfig.json ./
+COPY eslint.config.mjs next.config.js package-lock.json package.json postcss.config.js tsconfig.json ./
 RUN npm run build
 
 ######################################################################################

@@ -23,7 +23,7 @@ COPY --from=proddeps /app/node_modules ./node_modules
 COPY pages ./pages
 COPY prisma ./prisma
 COPY public ./public
-COPY .eslintrc.json middleware.ts next.config.js package-lock.json package.json prisma.config.ts tsconfig.json ./
+COPY eslint.config.mjs proxy.ts next.config.js package-lock.json package.json prisma.config.ts tsconfig.json ./
 
 # setting the db url to something is a hack to make the prisma code generation work. The reason is that the prisma config references this env var. Though there is no connection to the server initiated what so ever. Therefore the value does not matter. The documentation puts the prisma client code generation to the Docker CMD step, where this env var must be set. But I definitely don't want to run code generation at runtime rather than at build time.
 ENV DATABASE_URL=link
