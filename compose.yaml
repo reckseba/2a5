@@ -79,8 +79,8 @@ services:
       DOCKER_API_HOSTNAME: api
       DOCKER_API_PORT: 3000
     labels:
-      - "traefik.http.routers.service.middlewares=service-auth"
-      - "traefik.http.middlewares.service-auth.basicauth.users=user:$$2y$$05$$cSR0rsPusOY1tpoJbdd4Ku32lxKc1O2Fjcyft8FDbFzsgKa7Q1msy"
+      - "traefik.http.middlewares.admin-auth.basicauth.users=user:$$2y$$05$$cSR0rsPusOY1tpoJbdd4Ku32lxKc1O2Fjcyft8FDbFzsgKa7Q1msy"
+      - "traefik.http.routers.admin.middlewares=admin-auth"
 
 volumes:
   db-data:
