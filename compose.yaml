@@ -114,8 +114,9 @@ services:
       - traefik.http.services.${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}.loadbalancer.server.port=${DOCKER_ADMIN_PORT}
       - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}.service=${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}
       - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}.tls.certresolver=letsencrypt
-      - traefik.http.middlewares.urlshortener-admin-auth.basicauth.users=${ADMIN_BASIC_AUTH}
-      - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}.middlewares=urlshortener-admin-auth
+      - traefik.http.middlewares.${DOCKER_ADMIN_TRAEFIK_NAME_MIDDLEWARE}.basicauth.users=${ADMIN_BASIC_AUTH}
+      - traefik.http.middlewares.${DOCKER_ADMIN_TRAEFIK_NAME_MIDDLEWARE}.basicauth.realm=${DOCKER_ADMIN_TRAEFIK_NAME_REALM}
+      - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}.middlewares=${DOCKER_ADMIN_TRAEFIK_NAME_MIDDLEWARE}
     networks:
       - dokploy-network
 
