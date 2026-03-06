@@ -79,7 +79,7 @@ services:
       DOCKER_API_HOSTNAME: api
       DOCKER_API_PORT: 3000
     labels:
-      - "traefik.http.middlewares.test-auth.basicauth.users=test:$$2y$$05$$cSR0rsPusOY1tpoJbdd4Ku32lxKc1O2Fjcyft8FDbFzsgKa7Q1msy"
+      - "traefik.http.middlewares.test-auth.basicauth.users=test:$$apr1$$H6uskkkW$$IgXLP6ewTrSuBkTrqE8wj/,test2:$$apr1$$d9hr9HBB$$4HxwgUir3HP4EsggP/QNo0"
 
 volumes:
   db-data:
