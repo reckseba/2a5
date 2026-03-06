@@ -96,11 +96,7 @@ Do changes now and set strong secrets!
 - Set compose path: `./compose.yaml`
   - No service es exposing a port. All traffic will be routed through the proxy.
 - Copy the content of your `.env.prod` file to the environment variables settings
-- Goto Advanced and enable isolated environment
 - Hit Deploy
-- Set domain for the `app` container and the tcp port 3001.
-- Set an admin (sub)domain for the `admin` container and the tcp port 3002.
-  - Of course you need to set the DNS records beforehand pointing to your server IP address
 - Goto your domain and check if the login works
 
 
