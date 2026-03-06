@@ -59,6 +59,8 @@ services:
         condition: service_healthy
       api:
         condition: service_healthy
+    expose:
+      - ${DOCKER_APP_PORT}
     restart: unless-stopped
     environment:
       DOCKER_API_HOSTNAME: api
@@ -86,6 +88,8 @@ services:
         condition: service_healthy
       api:
         condition: service_healthy
+    expose:
+      - ${DOCKER_ADMIN_PORT}
     environment:
       API_BEARER_TOKEN: ${API_BEARER_TOKEN}
       DOCKER_API_HOSTNAME: api
