@@ -65,12 +65,12 @@ services:
       DOCKER_API_PORT: 3000
     labels:
       - traefik.enable=true
-      - traefik.http.routers.${DOCKER_APP_TRAEFIK_NAME_HTTP}.rule=Host(`${LINK_HOSTNAME}`)
+      - traefik.http.routers.${DOCKER_APP_TRAEFIK_NAME_HTTP}.rule=Host('${LINK_HOSTNAME}')
       - traefik.http.routers.${DOCKER_APP_TRAEFIK_NAME_HTTP}.entrypoints=web
       - traefik.http.services.${DOCKER_APP_TRAEFIK_NAME_HTTP}.loadbalancer.server.port=${DOCKER_APP_PORT}
       - traefik.http.routers.${DOCKER_APP_TRAEFIK_NAME_HTTP}.service=${DOCKER_APP_TRAEFIK_NAME_HTTP}
       - traefik.http.routers.${DOCKER_APP_TRAEFIK_NAME_HTTP}.middlewares=redirect-to-https@file
-      - traefik.http.routers.${DOCKER_APP_TRAEFIK_NAME_HTTPS}.rule=Host(`${LINK_HOSTNAME}`)
+      - traefik.http.routers.${DOCKER_APP_TRAEFIK_NAME_HTTPS}.rule=Host('${LINK_HOSTNAME}')
       - traefik.http.routers.${DOCKER_APP_TRAEFIK_NAME_HTTPS}.entrypoints=websecure
       - traefik.http.services.${DOCKER_APP_TRAEFIK_NAME_HTTPS}.loadbalancer.server.port=${DOCKER_APP_PORT}
       - traefik.http.routers.${DOCKER_APP_TRAEFIK_NAME_HTTPS}.service=${DOCKER_APP_TRAEFIK_NAME_HTTPS}
@@ -92,14 +92,14 @@ services:
       DOCKER_API_PORT: 3000
     labels:
       - traefik.enable=true
-      - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTP}.rule=Host(`${ADMIN_HOSTNAME}`)
+      - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTP}.rule=Host('${ADMIN_HOSTNAME}')
       - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTP}.entrypoints=web
-      - traefik.http.services.${DOCKER_ADMIN_TRAEFIK_NAME_HTTP}.loadbalancer.server.port=${DOCKER_APP_PORT}
+      - traefik.http.services.${DOCKER_ADMIN_TRAEFIK_NAME_HTTP}.loadbalancer.server.port=${DOCKER_ADMIN_PORT}
       - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTP}.service=${DOCKER_ADMIN_TRAEFIK_NAME_HTTP}
       - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTP}.middlewares=redirect-to-https@file
-      - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}.rule=Host(`${ADMIN_HOSTNAME}`)
+      - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}.rule=Host('${ADMIN_HOSTNAME}')
       - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}.entrypoints=websecure
-      - traefik.http.services.${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}.loadbalancer.server.port=${DOCKER_APP_PORT}
+      - traefik.http.services.${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}.loadbalancer.server.port=${DOCKER_ADMIN_PORT}
       - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}.service=${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}
       - traefik.http.routers.${DOCKER_ADMIN_TRAEFIK_NAME_HTTPS}.tls.certresolver=letsencrypt
       - traefik.http.middlewares.urlshortener-admin-auth.basicauth.users=${ADMIN_BASIC_AUTH}
