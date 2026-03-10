@@ -104,7 +104,7 @@ Do changes now and set strong secrets!
 Migration Steps
 ```bash
 docker exec -t 2a5-db-prod pg_dump -U 2a5-prod 2a5-prod --data-only --column-inserts > dump.sql
-sed -i.bak -E 's/^INSERT INTO app\./INSERT INTO appschema./' dump.sql
+sed -i.bak -E 's/^INSERT INTO public\./INSERT INTO appschema./' dump.sql
 # remove the migrations entry
 # rename the last three alter statements
 cat dump.sql | docker exec -i urlshortener-test-etuzuk-db-1 psql -U user_app -d shortener
