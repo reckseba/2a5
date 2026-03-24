@@ -92,6 +92,7 @@ services:
       context: ./admin/
       dockerfile: Dockerfile
       target: runner
+    restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
