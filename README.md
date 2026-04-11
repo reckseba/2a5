@@ -55,6 +55,10 @@ Prepare your local config (if not done already):
 ```bash
 cp ./.env.template ./.env
 ```
+Create the dokploy network (only necessary locally):
+```bash
+docker network create dokploy-network
+```
 
 Spin up the entire stack by referencing the `compose.yaml` and `compose.override.yaml` without `compose.override.db.yaml`. This way the `init-db-user.sh` is loaded and roles get created, while ports are exposed locally depending on `DOCKER_APP_PORT` and `DOCKER_ADMIN_PORT`:
 ```bash
@@ -83,6 +87,11 @@ You may run the down command with `-v` to remove volumes:
 docker compose --env-file ./.env down -v
 ```
 
+You may remove the network:
+```bash
+docker network rm dokploy-network
+```
+
 ## Deploy the entire stack to production using Dokploy
 
 Prepare your local config (if not done already):
@@ -99,3 +108,30 @@ Do changes now and set strong secrets!
 - Hit Deploy
 - Goto your domain and check if the login works
 
+## Connect to the database
+
+```bash
+# make sure you have setup a docker context
+docker context use dokploy
+
+# get the name of the internal network
+docker network ls
+
+# get the real name
+docker ps
+
+# run the sidecar
+docker run -d \
+  --name db-tunnel \
+  --network dokploy-network --network urlshortener-prod-h8qr8e_internal \
+  --rm -p 5430:5430 \
+  alpine/socat \
+  tcp-listen:5430,fork,reuseaddr tcp-connect:urlshortener-prod-h8qr8e-db-1:5432
+```
+
+Now you can use DBeaver to connect via SSH to your VPC, where TCP Port 5430 is listening.
+
+Don't forget to stop it when done:
+```bash
+docker container stop db-tunnel
+```
