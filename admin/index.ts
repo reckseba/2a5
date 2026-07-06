@@ -5,6 +5,7 @@ import "dotenv/config";
 const bearer = "Bearer " + process.env.API_BEARER_TOKEN;
 
 async function fetchApi(path: string, method = "GET") {
+    console.log(`Fetching API path: ${path}`);
 
     const endpoint = "http://" + process.env.DOCKER_API_HOSTNAME + ":" + process.env.DOCKER_API_PORT + path;
 
