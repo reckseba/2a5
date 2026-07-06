@@ -2,6 +2,7 @@ services:
   db:
     ports:
       - 5432:5432
+
   app:
     ports:
       - "${DOCKER_APP_PORT:-3001}:3001"
