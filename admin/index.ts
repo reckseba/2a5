@@ -89,8 +89,13 @@ app.get("/", async (req: Request, res: Response) => {
 });
 
 app.get("/api/url/check/:id", async (req: Request, res: Response) => {
+    const rawId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const id = parseInt(rawId, 10);
+    if (isNaN(id)) {
+        res.redirect("/");
+    }
 
-    const responseJson = await setUrlCheckedAdminUndeletedById(parseInt(req.params.id[0]));
+    const responseJson = await setUrlCheckedAdminUndeletedById(id);
 
     if (responseJson.message == "success") {
         res.redirect("/");
@@ -104,16 +109,26 @@ app.get("/api/url/check/:id", async (req: Request, res: Response) => {
 });
 
 app.get("/api/url/delete/:id", async (req: Request, res: Response) => {
+    const rawId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const id = parseInt(rawId, 10);
+    if (isNaN(id)) {
+        res.redirect("/");
+    }
 
-    await setUrlCheckedAdminDeletedById(parseInt(req.params.id[0]));
+    await setUrlCheckedAdminDeletedById(id);
 
     res.redirect("/");
 
 });
 
 app.get("/api/url/whitelist/:id", async (req: Request, res: Response) => {
+    const rawId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const id = parseInt(rawId, 10);
+    if (isNaN(id)) {
+        res.redirect("/");
+    }
 
-    const responseJson = await setUrlWhitelist(parseInt(req.params.id[0]));
+    const responseJson = await setUrlWhitelist(id);
 
     if (responseJson.message == "success") {
         res.redirect("/");
@@ -140,8 +155,13 @@ app.get("/api/url/whitelist/:id", async (req: Request, res: Response) => {
 });
 
 app.get("/api/url/blacklist/:id", async (req: Request, res: Response) => {
+    const rawId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const id = parseInt(rawId, 10);
+    if (isNaN(id)) {
+        res.redirect("/");
+    }
 
-    const responseJson = await setUrlBlacklist(parseInt(req.params.id[0]));
+    const responseJson = await setUrlBlacklist(id);
 
     if (responseJson.message === "success") {
         res.redirect("/");
@@ -163,7 +183,6 @@ app.get("/api/url/blacklist/:id", async (req: Request, res: Response) => {
 
 app.get("/api/health", (req: Request, res: Response) => {
     res.json({ message: "healthy" });
-
 });
 
 app.listen(port, () => {
