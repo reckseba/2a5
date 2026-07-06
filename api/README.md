@@ -13,7 +13,7 @@ cp ./.env.development.template ./.env.development.local
 ```
 Do changes in ./.env.development.local now.
 
-Install your environment
+Install your environment:
 ```bash
 npm install
 ```
@@ -40,7 +40,7 @@ source ./.env.development.local && curl localhost:3000/api/token/correct -H "Acc
 ```
 Expected response: `{"message":"success"}`
 
-If you do changes to the database schema run (while db is up)
+If you do changes to the database schema run (while db is up):
 ```bash
 npm run prismamigratedev
 ```
