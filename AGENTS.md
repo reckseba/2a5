@@ -27,7 +27,7 @@
 ## Fast verification targets
 - API lint: `cd api && npx eslint .`
 - API focused test spec: `cd api && npx cypress run --spec cypress/e2e/api/newUrlLong.cy.js`
-- App lint: `cd app && npm run lint`
+- App lint: `cd app && npx eslint .`
 - Admin lint: `cd admin && npm run lint`
 
 ## Test safety and env assumptions
