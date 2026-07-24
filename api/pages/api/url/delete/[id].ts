@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { deleteUrl } from "../../../../lib/urls";
+import { deleteUrl, getUrlById } from "../../../../lib/urls";
 
 type ResponseType = {
     message: string;
@@ -22,12 +22,14 @@ export default async function handler(
     
 
     // first need to check that the hostname is not blacklisted already. would not be okay to have a checked url with a blacklisted hostname
-    const url = await deleteUrl(id);
+    const url = await getUrlById(id);
 
     if (!url) {
         res.status(404).json({ message: "Not found."});
         return;
     }
+
+    await deleteUrl(id);
 
     res.status(200).json({ message: "success"});
     return;

@@ -3,7 +3,13 @@ import type { NextRequest } from "next/server";
 // This function can be marked `async` if using `await` inside
 export function proxy(req: NextRequest) {
 
-    if (req.nextUrl.pathname.match("/api/urlShort/*") || req.nextUrl.pathname.match("/api/urlLong/new") || req.nextUrl.pathname.match("/api/health")) {
+    const { pathname } = req.nextUrl;
+    const isPublic =
+        pathname === "/api/health" ||
+        pathname === "/api/urlLong/new" ||
+        /^\/api\/urlShort\/[^/]+$/.test(pathname);
+
+    if (isPublic) {
         // only these routes are unauthenticated ok
         return;
     }

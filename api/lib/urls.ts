@@ -94,7 +94,7 @@ export async function createUrl(urlLong: string, hostname: string, linkProtocol:
         throw new Error("Could not generate QR Code.");
     }
 
-    if (typeof checkedBy !== undefined && typeof checkedAt !== undefined) {
+    if (checkedBy !== undefined && checkedAt !== undefined) {
         const newUrl = await insertUrlChecked(
             urlLong,
             urlQrCode,

@@ -92,9 +92,10 @@ export default async function handler(
     // get ip bann list information. Might be black- or whitelisted
     const ipListResult = await getIp(ipAddressHash);
 
-    // in case of a  blacklisted hostname -> return right away
-    if (ipListResult?.blacklisted === true) {
-        // hostname is on blacklist
+    // in case of a currently active IP ban -> return right away.
+    // A ban is only active while `until` is in the future; expired bans no longer block.
+    if (ipListResult?.blacklisted === true && new Date(ipListResult.until) > new Date()) {
+        // ip is on blacklist and the ban has not expired yet
         res.status(400).json({
             message: "This IP is not allowed.",
         });
@@ -131,7 +132,7 @@ export default async function handler(
             const linkHostname: string = process.env.LINK_HOSTNAME ?? "localhost";
             const linkPort: number | null = (typeof process.env.LINK_PORT === "undefined" || process.env.LINK_PORT == "" ? null : parseInt(process.env.LINK_PORT));
 
-            if (typeof checkedBy === undefined) {
+            if (checkedBy === undefined) {
                 const newUrl = await createUrl(req.body.urlLong, hostname, linkProtocol, linkHostname, linkPort, ipAddressHash);
                 res.status(201).json(newUrl);
                 return;

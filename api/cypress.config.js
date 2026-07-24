@@ -13,6 +13,9 @@ const clientConfig = {
 
 module.exports = defineConfig({
     allowCypressEnv: false,
+    env: {
+        API_BEARER_TOKEN: dotenvOutput.parsed.API_BEARER_TOKEN
+    },
     e2e: {
         baseUrl: "http://localhost:3000",
         setupNodeEvents(on, config) {
@@ -26,6 +29,17 @@ module.exports = defineConfig({
                     const client = new Client(clientConfig);
                     await client.connect();
                     const res = await client.query(query);
+                    await client.end();
+                    return res.rows;
+                },
+                // Parameterized variant of queryPG. Accepts { text, values } and lets
+                // node-postgres bind the values safely ($1, $2, ...). This avoids the
+                // fragile string concatenation used for seeding (quote escaping,
+                // injection-style building) and keeps seed data readable.
+                async queryPGParams({ text, values }) {
+                    const client = new Client(clientConfig);
+                    await client.connect();
+                    const res = await client.query(text, values);
                     await client.end();
                     return res.rows;
                 }

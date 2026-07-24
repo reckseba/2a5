@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "dotenv -e ./.env.development.local -- node ./.next/standalone/server.js",
     "test": "npx cypress run",
+    "test:unit": "vitest run",
     "prismagenerate": "dotenv -e ./.env.development.local -- npx prisma generate",
     "prismadbpush": "dotenv -e ./.env.development.local -- npx prisma db push",
     "prismamigratedev": "dotenv -e ./.env.development.local -- npx prisma migrate dev"
@@ -30,7 +31,8 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "tldts": "^7.0.23",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
   },
   "overrides": {
     "@types/react": "19.2.14"

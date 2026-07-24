@@ -4,6 +4,50 @@ Open Source URL-Shortener with separated front-end &amp; back-end parts based on
 ## The Idea
 Long URLs are ugly and get misinterpreted very often because of there complicated query parameters. To keep short messages short, a url-shortener is here to save the day.
 
+## Features
+
+### URL Shortening
+- Turn long URLs into short links with automatically generated short codes (3–5 alphanumeric characters).
+- A QR-code is generated for every short link.
+- Result view with a one-click copy-to-clipboard button.
+- URL validation rejects malformed URLs and non-ICANN / invalid top-level domains.
+- Recursive-shortening protection prevents shortening links that point back at the shortener itself.
+- Duplicate detection returns the existing short link instead of creating a new one for an already known long URL.
+- Redirect handling with a permanent redirect for active links, a dedicated "gone" page with an abuse warning for deleted links, and a not-found page for unknown codes.
+
+### Abuse Prevention & Moderation
+- Hostname blacklist and whitelist to ban or explicitly allow specific host names; blacklisted hosts are refused at creation time.
+- IP-based ban list using hashed, time-limited entries to block abusive submitters — raw IP addresses are never stored.
+- Moderation review workflow: links are tracked as checked or unchecked and can be reviewed, whitelisted, blacklisted, or deleted by an administrator.
+- Soft-delete of abusive links, which stay flagged as deleted rather than being removed.
+
+### Admin Panel
+- A separate, server-side-rendered admin application (Express + Pug).
+- Dashboards listing unchecked links, checked links, deleted links, and blacklisted / whitelisted hostnames.
+- Actions to check, delete, whitelist, and blacklist individual links.
+- Communicates with the backend over HTTP and never accesses the database directly.
+
+### Privacy
+- No trackers, no ads and no log files.
+- IP addresses are only ever stored as hashes.
+
+### Split / Multi-Service Architecture
+- Three independent services: a public frontend, a backend API, and an admin panel, each running on its own port.
+- The frontend never touches the database — it talks to the API over HTTP, including for server-side redirects.
+- Prisma runs isolated in a one-shot sidecar container so ORM and migration code stays out of the runtime API container; the API and frontend only start after it exits successfully.
+
+### Security & Authentication
+- Bearer-token authentication protects the backend; only the public redirect lookup, new-link creation, and health check are unauthenticated, while all management routes require the token.
+
+### Hardened Database Access Model
+- Least-privilege PostgreSQL roles: a dedicated schema owner owns the schema instead of the superuser.
+- A restricted application role that can only read, insert and update — it cannot delete rows and cannot create or drop tables.
+- A separate ORM / migration role that owns and creates tables with full access, used only for schema evolution via Prisma.
+- Default `PUBLIC` privileges are revoked, with explicit grants wiring the application role's access to ORM-created objects.
+
+### Tech Stack
+- React and Next.js (Pages Router with SSR), TypeScript, TailwindCSS, Prisma ORM, PostgreSQL, Docker Compose, Dokploy for production deployment, Cypress for API end-to-end tests and ESLint.
+
 ## Reception
 You should not trust any web-service out there. Therefore you should not trust 2a5.de either. There is no way I, as the administrator of 2a5.de, can assure you, as a client, that the software, that my server is running, is what is published here in this very repository. Whatever leaves your browser must be considered public. If you want nobody else to know, what links you are shortening: host your own instance. This tutorial teaches you how.
 
