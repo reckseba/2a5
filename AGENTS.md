@@ -5,10 +5,11 @@
 - There is no root `package.json` and no CI workflow checked in; use package-local scripts and local verification.
 
 ## Service wiring you need to know
+- Dev ports: api `3000`, app `3001`, admin `3002`.
 - `api/` uses Next.js **Pages Router** API routes under `api/pages/api/**`.
-- `app/` also uses Pages Router; it does SSR redirect in `app/pages/[urlShort].tsx` by calling the API service (not the DB directly).
-- `admin/` renders server-side Pug views and calls API endpoints with a bearer token from env.
-- API auth is enforced in `api/proxy.ts` for `/api/:path*` except `/api/urlShort/*`, `/api/urlLong/new`, and `/api/health`.
+- `app/` also uses Pages Router; it does SSR redirect in `app/pages/[urlShort].tsx`, which calls the API service via `app/lib/urls.ts` (HTTP fetch to `DOCKER_API_HOSTNAME`/`DOCKER_API_PORT`, defaulting to `localhost:3000`), never the DB directly.
+- `admin/` (`admin/index.ts`) renders server-side Pug views and calls API endpoints via `fetchApi` using a `Bearer ${API_BEARER_TOKEN}` header.
+- API auth is enforced in `api/proxy.ts` (matcher `/api/:path*`) except `/api/urlShort/*`, `/api/urlLong/new`, and `/api/health`.
 
 ## Database and compose gotchas
 - Local API/app/admin development expects Postgres running from the root compose files.
@@ -25,10 +26,10 @@
 - `admin/` production/start path runs `index.js`; rebuild it from `index.ts` with `npm run build` before `npm run start` if TS changed.
 
 ## Fast verification targets
-- API lint: `cd api && npx eslint .`
-- API focused test spec: `cd api && npx cypress run --spec cypress/e2e/api/newUrlLong.cy.js`
+- API lint: `cd api && npx eslint .` (no `lint` script; run eslint directly).
+- API focused test spec: `cd api && npx cypress run --spec cypress/e2e/api/newUrlLong.cy.js` (needs db + `npm run dev` running).
 - App lint: `cd app && npx eslint .`
-- Admin lint: `cd admin && npm run lint`
+- Admin lint: `cd admin && npm run lint` — note this only lints `index.ts` (`eslint index.ts`), not the whole dir.
 
 ## Test safety and env assumptions
 - `api` Cypress tests execute SQL tasks against local Postgres and truncate tables (see `api/cypress/e2e/api/newUrlLong.cy.js`); do not run against data you care about.

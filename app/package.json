@@ -6,7 +6,6 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "PORT=3001 node ./.next/standalone/server.js",
-    "lint": "next lint"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.1",
