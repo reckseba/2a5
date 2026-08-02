@@ -29,7 +29,7 @@
 - API lint: `cd api && npx eslint .` (no `lint` script; run eslint directly).
 - API focused test spec: `cd api && npx cypress run --spec cypress/e2e/api/newUrlLong.cy.js` (needs db + `npm run dev` running).
 - App lint: `cd app && npx eslint .`
-- Admin lint: `cd admin && npm run lint` — note this only lints `index.ts` (`eslint index.ts`), not the whole dir.
+- Admin lint: `cd admin && npx eslint .` — note this only lints `index.ts` (`eslint index.ts`), not the whole dir.
 
 ## Test safety and env assumptions
 - `api` Cypress tests execute SQL tasks against local Postgres and truncate tables (see `api/cypress/e2e/api/newUrlLong.cy.js`); do not run against data you care about.

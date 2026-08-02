@@ -7,28 +7,27 @@
   "scripts": {
     "build": "npx tsc",
     "start": "dotenv -e .env.development.local -- node index.js",
-    "dev": "dotenv -e .env.development.local -- concurrently \"npx tsc --watch\" \"nodemon -q index.js\"",
-    "lint": "npx eslint index.ts"
+    "dev": "dotenv -e .env.development.local -- concurrently \"npx tsc --watch\" \"nodemon -q index.js\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^17.3.1",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "pug": "^3.0.3"
+    "pug": "^3.0.4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/express": "^5.0.6",
-    "@types/node": "^25.3.0",
-    "@typescript-eslint/eslint-plugin": "^8.56.1",
-    "@typescript-eslint/parser": "^8.56.1",
-    "concurrently": "^9.2.1",
+    "@types/node": "^26.1.2",
+    "@typescript-eslint/eslint-plugin": "^8.65.0",
+    "@typescript-eslint/parser": "^8.65.0",
+    "concurrently": "^10.0.4",
     "dotenv-cli": "^11.0.0",
-    "eslint": "^10.0.2",
-    "globals": "^17.3.0",
+    "eslint": "^10.8.0",
+    "globals": "^17.9.0",
     "nodemon": "^3.1.14",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.1"
+    "typescript-eslint": "^8.65.0"
   }
 }

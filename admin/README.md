@@ -26,7 +26,7 @@ npm run dev
 
 Check linting:
 ```bash
-npm run lint
+npx eslint .
 ```
 
 Start coding and open [http://localhost:3002](http://localhost:3002) and check the result. The system supports hot reload.
