@@ -13,28 +13,28 @@
     "prismamigratedev": "dotenv -e ./.env.development.local -- npx prisma migrate dev"
   },
   "devDependencies": {
-    "@prisma/adapter-pg": "^7.4.1",
-    "@prisma/client": "^7.4.1",
-    "@types/node": "^25.3.1",
-    "@types/pg": "^8.16.0",
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "@types/node": "^26.1.2",
+    "@types/pg": "^8.20.3",
     "@types/qrcode": "^1.5.6",
-    "@types/react": "19.2.14",
-    "cypress": "^15.11.0",
-    "dotenv": "^17.3.1",
+    "@types/react": "19.2.18",
+    "cypress": "^15.19.0",
+    "dotenv": "^17.4.2",
     "dotenv-cli": "^11.0.0",
-    "eslint": "^9.39.3",
-    "eslint-config-next": "16.1.6",
-    "next": "16.1.6",
-    "pg": "^8.19.0",
-    "prisma": "^7.4.1",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.2.12",
+    "next": "16.2.12",
+    "pg": "^8.22.0",
+    "prisma": "^7.9.1",
     "qrcode": "^1.5.4",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "tldts": "^7.0.23",
-    "typescript": "^5.9.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "tldts": "^7.4.10",
+    "typescript": "^6.0.3",
     "vitest": "^4.1.10"
   },
   "overrides": {
-    "@types/react": "19.2.14"
+    "@types/react": "19.2.18"
   }
 }
